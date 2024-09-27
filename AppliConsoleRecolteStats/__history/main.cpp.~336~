@@ -29,9 +29,10 @@ int main(){
     int timestamp = (int)time(NULL);
 
     stimestand << timestamp;
-    JSON << "\n{\n\t\"donneesVol\": { \n\t\t\"nom\":\"LucasLeMeilleur\", \n\t\t\"numero\":\"1ZB0UB\", \n\t\t\"time\":\"";
-    JSON <<  stimestand;
-    JSON <<  "\", \n\t\t\"etats\":[\n";
+
+    Log << "\n{\n\t\"donneesVol\": { \n\t\t\"nom\":\LucasLeMeilleur\", \n\t\t\"numero\":\"1ZB0UB\", \n\t\t\"time\":\"";
+    Log <<  stimestand;
+    Log <<  "\", \n\t\t\"etats\":[\n";
 
 
 
@@ -50,8 +51,10 @@ int main(){
 
 
         if(increment > 0){
-            JSON<< ",\r";
+            Log<< ",\r";
         }
+
+        std::cout << increment;
 
         increment++;
 

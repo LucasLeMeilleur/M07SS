@@ -14,8 +14,6 @@ int main(){
     Server.OuvrirLaSocketDEcoute(8890, "0.0.0.0");
 
     std::ofstream Log("serveur.log", std::ios_base::app);
-    std::ofstream JSON("drone.json", std::ios_base::app);
-
     struct Stats{
 		int pitch,roll,yaw,vgx,vgy,vgz,templ,temph,tof,h,bat,time;
         float baro,agx,agy,agz;
@@ -29,9 +27,10 @@ int main(){
     int timestamp = (int)time(NULL);
 
     stimestand << timestamp;
-    JSON << "\n{\n\t\"donneesVol\": { \n\t\t\"nom\":\"LucasLeMeilleur\", \n\t\t\"numero\":\"1ZB0UB\", \n\t\t\"time\":\"";
-    JSON <<  stimestand;
-    JSON <<  "\", \n\t\t\"etats\":[\n";
+
+    Log << "\n{\n\t\"donneesVol\": { \n\t\t\"nom\":\LucasLeMeilleur\", \n\t\t\"numero\":\"1ZB0UB\", \n\t\t\"time\":\"";
+    Log <<  stimestand;
+    Log <<  "\", \n\t\t\"etats\":[\n";
 
 
 
@@ -40,24 +39,26 @@ int main(){
 
     do{
         nb = Server.RecevoirUnMessage(Data, 3000000);
-
+        //Log << Data ;
         DataEncoded = Data;
 
 
-        if (nb < 0) {
+        if (nb <= 0) {
         	break;
         }
 
 
         if(increment > 0){
-            JSON<< ",\r";
+            Log<< ",\r";
         }
+
+        std::cout << increment;
 
         increment++;
 
-//        std::sscanf (Data.c_str(), "pitch:%d;roll:%d;yaw:%d;vgx:%d;vgy:%d;vgz:%d;templ:%d;temph:%d;tof:%d;h:%d;bat:%d;baro:%f;time:%d;agx:%f;agy:%f;agz:%f;",
-//        &StatDrone.pitch,&StatDrone.roll,&StatDrone.yaw,&StatDrone.vgx,&StatDrone.vgy,&StatDrone.vgz,&StatDrone.templ,&StatDrone.temph,&StatDrone.tof,
-//        &StatDrone.bat,&StatDrone.baro,&StatDrone.time,&StatDrone.agx,&StatDrone.agy,&StatDrone.agz);
+        std::sscanf (Data.c_str(), "pitch:%d;roll:%d;yaw:%d;vgx:%d;vgy:%d;vgz:%d;templ:%d;temph:%d;tof:%d;h:%d;bat:%d;baro:%f;time:%d;agx:%f;agy:%f;agz:%f;",
+        &StatDrone.pitch,&StatDrone.roll,&StatDrone.yaw,&StatDrone.vgx,&StatDrone.vgy,&StatDrone.vgz,&StatDrone.templ,&StatDrone.temph,&StatDrone.tof,
+        &StatDrone.bat,&StatDrone.baro,&StatDrone.time,&StatDrone.agx,&StatDrone.agy,&StatDrone.agz);
 
 
         int nb= 0,bn = 0;
@@ -99,21 +100,20 @@ int main(){
         nb = 1;
 
 
+
        	Log << DataEncoded;
-        JSON << DataEncoded;
+
 
 
 
     }while(nb >0);
 
 
+    
 
-
-
-    JSON << "\r\t\t] \n\t} \n}\r";
+    Log << "\r\t\t] \n\t} \n}\r";
 
 
     Log.close();
-    JSON.close();
 
 }

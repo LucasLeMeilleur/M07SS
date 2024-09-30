@@ -8,6 +8,7 @@
 
 #include <sstream>
 #include <iostream>
+#include "IRClientTCP.h"
 
 ServeurDonneeDrone::ServeurDonneeDrone(std::string pilote, std::string numeroDrone){
     fichierLog.open("serveur.log", std::ios_base::out);
@@ -82,7 +83,6 @@ int ServeurDonneeDrone::RecevoirDonneesDrone(){
     std::string msg;   int nbOctets =0 ;
     nbOctets=serveurUDP.RecevoirUnMessage(msg, 1000000);
     if(nbOctets <= 0 ) return nbOctets;
-
     AjouterDonneesJSON(msg);
     fichierLog << msg;
     return nbOctets;
@@ -111,3 +111,13 @@ void ServeurDonneeDrone::CloreJSON(){
 
 }
 
+void ServeurDonneeDrone::EnvoyerDonneesBDD(string IPREST, std::string urlREST){
+    CloreJSON();
+    IRClientTCP client;
+    client.SeConnecterAUnServeur("172.20.21.201",80);
+    stringstream slongueur;
+    slongueur << leJSON.length();
+
+    std::string = "POST"+urlREST+" HTTP/1.1\r\nHost: "+ IPREST+ "\r\nConnexion: keep-alive\r\nContent-type: text/plain\r\nContent-Length: "+slongueur.str()+"\r\n\r\n"+leJSON;
+
+}

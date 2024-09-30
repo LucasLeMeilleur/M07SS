@@ -8,6 +8,7 @@
 
 #include <sstream>
 #include <iostream>
+#include "IRClientTCP.h"
 
 ServeurDonneeDrone::ServeurDonneeDrone(std::string pilote, std::string numeroDrone){
     fichierLog.open("serveur.log", std::ios_base::out);
@@ -110,3 +111,19 @@ void ServeurDonneeDrone::CloreJSON(){
 
 }
 
+void ServeurDonneeDrone::EnvoyerDonneesBDD(string IPREST, std::string urlREST){
+    CloreJSON();
+    IRClientTCP client;
+    client.SeConnecterAUnServeur("172.20.21.201",80);
+    stringstream slongueur;
+    slongueur << leJSON.length();
+    bool ReqReussi;
+
+    std::string req = "POST"+urlREST+" HTTP/1.1\r\nHost: "+ IPREST+ "\r\nConnexion: keep-alive\r\nContent-type: text/plain\r\nContent-Length: "+slongueur.str()+"\r\n\r\n"+leJSON;
+    ReqReussi = client.Envoyer(req);
+
+    if(ReqReussi) std::string rep = "Connexion au serveur réussi";
+    else std::string rep = "Connexion au serveur echoué";
+
+
+}

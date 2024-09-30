@@ -18,7 +18,7 @@ int main(){
         n = serveurDonnee.RecevoirDonneesDrone();
     }while(n>1);
 
-    serveurDonnee.envoyerDonneesBDD("172.20.21.201","/~lucas/M07SS/restTello.php");
+    serveurDonnee.envoyerDonneesBDD("172.20.21.201","/~lucas/M07SS/restTello.php
 
     std::cout <<" \nFin de recuperation des données... Appuyez sur entrée pour quitter";
     std::cin.get();

@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <tchar.h>
 #include "IRServeurUDP.h"
 #include <string>
@@ -10,7 +10,7 @@
 
 int main(){
 
-    ServeurDonneeDrone serveurDonnee("LucasLeMeilleur2", "3ZOBS");
+    ServeurDonneeDrone serveurDonnee("LucasLeMeilleur", "3ZOBS");
     int n;
 
     do{
@@ -18,7 +18,7 @@ int main(){
         n = serveurDonnee.RecevoirDonneesDrone();
     }while(n>1);
 
-    serveurDonnee.EnvoyerDonneesBDD("172.20.21.201","/~lucas/M07SW/rest.php");
+    serveurDonnee.envoyerDonneesBDD("172.20.21.201","/~lucas/M07SS/restTello.php");
 
     std::cout <<" \nFin de recuperation des données... Appuyez sur entrée pour quitter";
     std::cin.get();

@@ -123,6 +123,12 @@
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="IRClientTCP.cpp">
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <None Include="IRClientTCP.h">
+            <BuildOrder>5</BuildOrder>
+        </None>
         <CppCompile Include="IRServeurUDP.cpp">
             <BuildOrder>2</BuildOrder>
         </CppCompile>
@@ -136,6 +142,10 @@
             <BuildOrder>0</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <CppCompile Include="ServeurDonneeDrone.cpp">
+            <DependentOn>ServeurDonneeDrone.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -232,9 +242,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\Project1.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName=".\Win32\Release\Project1.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>Project1.tds</RemoteName>
+                        <RemoteName>Project1.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

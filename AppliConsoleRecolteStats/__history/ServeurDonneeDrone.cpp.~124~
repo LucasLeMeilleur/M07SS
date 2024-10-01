@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #pragma hdrstop
 
@@ -95,14 +95,14 @@ void ServeurDonneeDrone::DebuterJSON(std::string pilote, std::string numeroDrone
     int timestamp = (int)time(NULL);
 
     stimestand << timestamp;
-    leJSON += "\n{\n\t\"donneesVol\": { \n\t\t\"nom\":\"LucasLeMeilleur\", \n\t\t\"numero\":\"1ZB0UB\", \n\t\t\"time\":\"";
+    leJSON += "\n{ \n\t\"nom\":\"LucasLeMeilleur\", \n\t\"numero\":\"1ZB0UB\", \n\t\"time\":\"";
     leJSON +=  stimestand.str();
     leJSON += "\", \n\t\t\"etats\":[\n";
 
 }
 
 void ServeurDonneeDrone::CloreJSON(){
-    leJSON += "\r\t\t] \n\t} \n}\r";
+    leJSON += "\r\t] \n\t}\r";
 
     ofstream fichierJson;
     fichierJson.open("drone.json");
@@ -111,16 +111,26 @@ void ServeurDonneeDrone::CloreJSON(){
 
 }
 
-void ServeurDonneeDrone::EnvoyerDonneesBDD(string IPREST, std::string urlREST){
+void ServeurDonneeDrone::EnvoyerDonneesBDD(std::string IPREST, std::string urlREST){
     CloreJSON();
     IRClientTCP client;
     client.SeConnecterAUnServeur("172.20.21.201",80);
-    stringstream slongueur;
+    std::stringstream slongueur;
     slongueur << leJSON.length();
     bool ReqReussi;
 
-    std::string req = "POST"+urlREST+" HTTP/1.1\r\nHost: "+ IPREST+ "\r\nConnexion: keep-alive\r\nContent-type: text/plain\r\nContent-Length: "+slongueur.str()+"\r\n\r\n"+leJSON;
+    std::string req = "POST "+urlREST+" HTTP/1.1\r\nHost: "+ IPREST+ "\r\nConnexion: keep-alive\r\nContent-type: text/plain\r\nContent-Length: "+slongueur.str()+"\r\n\r\n"+leJSON;
     ReqReussi = client.Envoyer(req);
 
+    std::string rep;
+    if(ReqReussi) std::string rep = "Connexion au serveur réussi";
+    else std::string rep = "Connexion au serveur echoué";
+
+    fichierLog << rep << "\n";
+
+    std::cout << rep << "\n";
+
+
+    FermerFichierLog();
 
 }

@@ -10,7 +10,7 @@
 
 int main(){
 
-    ServeurDonneeDrone serveurDonnee("LucasLeMeilleur2", "3ZOBS");
+    ServeurDonneeDrone serveurDonnee("LucasLeMeilleur", "3ZOBS");
     int n;
 
     do{

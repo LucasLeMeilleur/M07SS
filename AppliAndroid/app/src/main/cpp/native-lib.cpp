@@ -16,9 +16,10 @@ Java_com_example_myapplication_MainActivity_stringFromJNI(
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_myapplication_MainActivity_Commande(JNIEnv *env, jobject thiz, jstring ip) {
-
+    TelloClient = NULL;
     TelloClient = new TelloClientUDP(env->GetStringUTFChars(ip, NULL));
     TelloClient->ModeCommande();
+    TelloClient->EnvoyerCommande("streamon");
 }
 extern "C"
 JNIEXPORT void JNICALL

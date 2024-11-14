@@ -2,10 +2,15 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
+import android.view.SurfaceView;
+
 import android.annotation.SuppressLint;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,25 +20,35 @@ import android.view.MotionEvent;
 
 import com.example.myapplication.databinding.ActivityMainBinding;
 
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Used to load the 'myapplication' library on application startup.
+
     static {
         System.loadLibrary("myapplication");
     }
 
     private ActivityMainBinding binding;
 
+    //Video
 
-    @SuppressLint("ClickableViewAccessibility")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Pour masquer la barre de statut
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+// Masquer la barre de statut et la barre de navigation
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+
 
         //SeekBar
         SeekBar TrackBarDeg = binding.seekBar;
@@ -46,10 +61,6 @@ public class MainActivity extends AppCompatActivity {
         //Bouttons
 
         Button BoutonCmd = binding.button13;
-        Button BoutonAvancer = binding.button3;
-        Button BoutonReculer = binding.button5;
-        Button BoutonGauche = binding.button4;
-        Button BoutonDroit = binding.button6;
         Button BoutonTrigo = binding.button;
         Button BoutonHorraire = binding.button2;
         Button BoutonDescendre = binding.button8;
@@ -59,25 +70,24 @@ public class MainActivity extends AppCompatActivity {
         //Edits
         EditText IPDrone = binding.editTextText;
 
+        //Image View
+        ImageView FlecheGauche = binding.imageView3;
+        ImageView FlecheDroite = binding.imageView4;
+        ImageView FlecheBas = binding.imageView5;
+        ImageView FlecheHaut = binding.imageView6;
 
 
         TextVitesse.setText( TrackBarVitesse.getProgress()+1 + " cm/s");
         TextHauteur.setText( TrackBarHauteur.getProgress()+1 + " cm");
         TextDegre.setText(TrackBarDeg.getProgress()+1 + " deg");
 
-
         ImageView imageView = findViewById(R.id.imageView);
 
-
-        // Assure-toi que ton ImageView a l'ID approprié
-
-// Définir un OnTouchListener
         imageView.setOnTouchListener(new View.OnTouchListener() {
             float initialX = 0;
             float initialY = 0;
             float touchX = 0;
             float touchY = 0;
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 float x = event.getRawX();
@@ -143,150 +153,121 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
-
-
-
-
-
         BoutonCmd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Commande(String.valueOf(IPDrone.getText()));
             }
         });
-
-
-
-
-
         TrackBarVitesse.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
                 String TextVit = TrackBarVitesse.getProgress()+1 + " cm/s";
                 TextVitesse.setText(TextVit);
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-
         TrackBarHauteur.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                String TextHaut = TrackBarHauteur.getProgress()+1 + " cm";
+                String TextHaut = TrackBarHauteur.getProgress() + 1 + " cm";
                 TextHauteur.setText(TextHaut);
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
-
         TrackBarDeg.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 String TextDeg = TrackBarDeg.getProgress()+1 + " deg";
                 TextDegre.setText(TextDeg);
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
-        BoutonAvancer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Avancer();
-            }
-        });
-
-        BoutonReculer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Reculer();
-            }
-        });
-
-        BoutonGauche.setOnClickListener(new View.OnClickListener() {
+        FlecheGauche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Gauche();
             }
         });
-
-        BoutonDroit.setOnClickListener(new View.OnClickListener() {
+        FlecheDroite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Droite();
             }
         });
-
+        FlecheBas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Reculer();
+            }
+        });
+        FlecheHaut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Avancer();
+            }
+        });
         BoutonTrigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Trigo(TrackBarDeg.getProgress() +1);
             }
         });
-
         BoutonHorraire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Horraire(TrackBarDeg.getProgress() +1);
             }
         });
-
         BoutonDescendre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Descendre(TrackBarHauteur.getProgress() +1);
             }
         });
-
         BoutonMonter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Monter(TrackBarHauteur.getProgress() +1);
             }
         });
-
         BoutonAtterrir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Atterrir();
             }
         });
-
         BoutonDecoller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Decoller();
-
             }
         });
+
+
+
     }
+
+
+
+
+    @SuppressLint("ClickableViewAccessibility")
+
 
 
 
@@ -304,3 +285,4 @@ public class MainActivity extends AppCompatActivity {
     public native void Go(int X, int Y, int Vitesse);
     public native String stringFromJNI();
 }
+

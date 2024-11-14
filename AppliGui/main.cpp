@@ -62,6 +62,8 @@ void __fastcall TForm1::ButCmdClick(TObject *Sender)
     }
 	ThreadServTello = new ThreadServ(true);
 	ThreadServTello->Start();
+
+	TelloClient->EnvoyerCommande("streamon");
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ButFowClick(TObject *Sender)
